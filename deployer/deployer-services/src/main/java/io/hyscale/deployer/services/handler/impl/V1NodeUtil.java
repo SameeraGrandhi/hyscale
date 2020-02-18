@@ -41,6 +41,9 @@ public class V1NodeUtil {
             if (nodeList != null && nodeList.getItems() != null && !nodeList.getItems().isEmpty()) {
                 List<String> ipList = new ArrayList<>();
                 for (V1Node node : nodeList.getItems()) {
+                    if (node.getMetadata().getLabels().getOrDefault("node-role.kubernetes.io/master", null) != null) {
+                        continue;
+                    }
                     Map<String, String> typeVsAddress = new HashMap<>();
                     for (V1NodeAddress nodeAddress : node.getStatus().getAddresses()) {
                         typeVsAddress.put(nodeAddress.getType(), nodeAddress.getAddress());
